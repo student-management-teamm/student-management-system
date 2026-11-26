@@ -9,6 +9,14 @@ public class StudentInfo
     public string DisplayName => $"{StudentCode} - {FullName}";
 }
 
+public class ClassInfo
+{
+    public int ClassId { get; set; }
+    public string ClassName { get; set; } = "";
+
+    public override string ToString() => ClassName;
+}
+
 public class CourseInfo
 {
     public int CourseId { get; set; }
@@ -24,6 +32,7 @@ public class CourseGrade
     public int StudentId { get; set; }
     public string StudentCode { get; set; } = "";
     public string StudentName { get; set; } = "";
+    public string ClassName { get; set; } = "";
     public int CourseId { get; set; }
     public string CourseCode { get; set; } = "";
     public string CourseName { get; set; } = "";

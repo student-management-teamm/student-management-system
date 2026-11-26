@@ -4,11 +4,11 @@ public class InMemoryGradeRepository : IGradeRepository
 {
     private readonly List<StudentInfo> students = new()
     {
-        new StudentInfo { StudentId = 1, StudentCode = "SV001", FullName = "Nguyễn Văn An" },
-        new StudentInfo { StudentId = 2, StudentCode = "SV002", FullName = "Trần Thị Bình" },
-        new StudentInfo { StudentId = 3, StudentCode = "SV003", FullName = "Lê Minh Châu" },
-        new StudentInfo { StudentId = 4, StudentCode = "SV004", FullName = "Phạm Quốc Dũng" },
-        new StudentInfo { StudentId = 5, StudentCode = "SV005", FullName = "Hoàng Thu Hà" }
+        new StudentInfo { StudentId = 1, StudentCode = "SV001", FullName = "Nguyen Van An" },
+        new StudentInfo { StudentId = 2, StudentCode = "SV002", FullName = "Tran Thi Binh" },
+        new StudentInfo { StudentId = 3, StudentCode = "SV003", FullName = "Le Minh Chau" },
+        new StudentInfo { StudentId = 4, StudentCode = "SV004", FullName = "Pham Quoc Dung" },
+        new StudentInfo { StudentId = 5, StudentCode = "SV005", FullName = "Hoang Thu Ha" }
     };
 
     private readonly List<CourseInfo> courses = new()
@@ -31,7 +31,18 @@ public class InMemoryGradeRepository : IGradeRepository
         [(4, 3)] = (7m, 4m, 2m)
     };
 
+    private const string SampleClass = "SAMPLE";
+
+    public IReadOnlyList<ClassInfo> GetClasses() => new List<ClassInfo> { new() { ClassId = 1, ClassName = SampleClass } };
+
     public IReadOnlyList<CourseInfo> GetCourses() => courses.ToList();
+
+    public IReadOnlyList<CourseInfo> GetCoursesByClass(int classId) => courses.ToList();
+
+    public IReadOnlyList<CourseGrade> GetGradesByClassAndCourse(int classId, int courseId) => GetGradesByCourse(courseId);
+
+    public IReadOnlyList<CourseGrade> GetAllGrades() =>
+        courses.SelectMany(c => students.Select(s => Build(s, c))).ToList();
 
     public IReadOnlyList<StudentInfo> GetStudents() => students.ToList();
 
@@ -70,6 +81,7 @@ public class InMemoryGradeRepository : IGradeRepository
             StudentId = student.StudentId,
             StudentCode = student.StudentCode,
             StudentName = student.FullName,
+            ClassName = SampleClass,
             CourseId = course.CourseId,
             CourseCode = course.CourseCode,
             CourseName = course.CourseName,
