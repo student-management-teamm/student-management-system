@@ -1,20 +1,22 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace StudentManagementWinForms.Data;
-
-public static class Database
+namespace StudentManagementWinForms.Data
 {
-    public static MySqlConnection CreateConnection()
+    public static class Database
     {
-        string? connectionString =
-            Environment.GetEnvironmentVariable("STUDENT_DB_CONNECTION");
-
-        if (string.IsNullOrWhiteSpace(connectionString))
+        public static MySqlConnection CreateConnection()
         {
-            throw new InvalidOperationException(
-                "Chưa cấu hình biến môi trường STUDENT_DB_CONNECTION.");
-        }
+            string? connectionString =
+                Environment.GetEnvironmentVariable(
+                    "STUDENT_DB_CONNECTION");
 
-        return new MySqlConnection(connectionString);
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException(
+                    "Chưa cấu hình biến môi trường STUDENT_DB_CONNECTION.");
+            }
+
+            return new MySqlConnection(connectionString);
+        }
     }
 }
