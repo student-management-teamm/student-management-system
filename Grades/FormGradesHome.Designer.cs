@@ -21,6 +21,9 @@
             btnGradeEntry = new Button();
             btnStudentGrades = new Button();
             btnGradeFilter = new Button();
+            btnGradeImport = new Button();
+            btnFinalNeeded = new Button();
+            btnAcademicWarning = new Button();
             SuspendLayout();
             // 
             // lblTitle
@@ -63,11 +66,44 @@
             btnGradeFilter.UseVisualStyleBackColor = true;
             btnGradeFilter.Click += btnGradeFilter_Click;
             // 
+            // btnGradeImport
+            // 
+            btnGradeImport.Location = new Point(24, 226);
+            btnGradeImport.Name = "btnGradeImport";
+            btnGradeImport.Size = new Size(300, 40);
+            btnGradeImport.TabIndex = 4;
+            btnGradeImport.Text = "Import grades from Excel or CSV";
+            btnGradeImport.UseVisualStyleBackColor = true;
+            btnGradeImport.Click += btnGradeImport_Click;
+            // 
+            // btnFinalNeeded
+            // 
+            btnFinalNeeded.Location = new Point(24, 278);
+            btnFinalNeeded.Name = "btnFinalNeeded";
+            btnFinalNeeded.Size = new Size(300, 40);
+            btnFinalNeeded.TabIndex = 5;
+            btnFinalNeeded.Text = "Final exam score needed";
+            btnFinalNeeded.UseVisualStyleBackColor = true;
+            btnFinalNeeded.Click += btnFinalNeeded_Click;
+            // 
+            // btnAcademicWarning
+            // 
+            btnAcademicWarning.Location = new Point(24, 330);
+            btnAcademicWarning.Name = "btnAcademicWarning";
+            btnAcademicWarning.Size = new Size(300, 40);
+            btnAcademicWarning.TabIndex = 6;
+            btnAcademicWarning.Text = "Academic warnings";
+            btnAcademicWarning.UseVisualStyleBackColor = true;
+            btnAcademicWarning.Click += btnAcademicWarning_Click;
+            // 
             // FormGradesHome
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(350, 240);
+            ClientSize = new Size(350, 396);
+            Controls.Add(btnAcademicWarning);
+            Controls.Add(btnFinalNeeded);
+            Controls.Add(btnGradeImport);
             Controls.Add(btnGradeFilter);
             Controls.Add(btnStudentGrades);
             Controls.Add(btnGradeEntry);
@@ -87,5 +123,8 @@
         private Button btnGradeEntry;
         private Button btnStudentGrades;
         private Button btnGradeFilter;
+        private Button btnGradeImport;
+        private Button btnFinalNeeded;
+        private Button btnAcademicWarning;
     }
 }

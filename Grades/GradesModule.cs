@@ -46,6 +46,39 @@ public static class GradesModule
         form.ShowDialog(owner);
     }
 
+    public static void ShowGradeImport(IWin32Window? owner = null)
+    {
+        if (!CanConnect(owner))
+        {
+            return;
+        }
+
+        using FormGradeImport form = new(Repository);
+        form.ShowDialog(owner);
+    }
+
+    public static void ShowFinalScoreNeeded(IWin32Window? owner = null)
+    {
+        if (!CanConnect(owner))
+        {
+            return;
+        }
+
+        using FormFinalScoreNeeded form = new(Repository);
+        form.ShowDialog(owner);
+    }
+
+    public static void ShowAcademicWarning(IWin32Window? owner = null)
+    {
+        if (!CanConnect(owner))
+        {
+            return;
+        }
+
+        using FormAcademicWarning form = new(Repository);
+        form.ShowDialog(owner);
+    }
+
     private static bool CanConnect(IWin32Window? owner)
     {
         try
