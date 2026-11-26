@@ -8,6 +8,7 @@ public partial class FormGradeEntry : Form
     private bool loading;
     private bool hasUnsavedChanges;
     private int currentCourseIndex = -1;
+    private int currentClassIndex = -1;
 
     public FormGradeEntry() : this(GradesModule.Repository)
     {
@@ -26,25 +27,52 @@ public partial class FormGradeEntry : Form
             GradeRules.AttendanceWeight, GradeRules.MidtermWeight, GradeRules.FinalWeight, GradeRules.PassMark);
 
         loading = true;
+        cboClass.DisplayMember = nameof(ClassInfo.ClassName);
+        cboClass.DataSource = repository.GetClasses().ToList();
         cboCourse.DisplayMember = nameof(CourseInfo.DisplayName);
-        cboCourse.DataSource = repository.GetCourses().ToList();
         loading = false;
 
-        if (cboCourse.Items.Count > 0)
+        if (cboClass.Items.Count > 0)
         {
-            cboCourse.SelectedIndex = 0;
-            LoadGrades();
+            loading = true;
+            cboClass.SelectedIndex = 0;
+            loading = false;
+            LoadCourses();
         }
     }
 
+    private ClassInfo? SelectedClass => cboClass.SelectedItem as ClassInfo;
+
     private CourseInfo? SelectedCourse => cboCourse.SelectedItem as CourseInfo;
+
+    private void LoadCourses()
+    {
+        currentClassIndex = cboClass.SelectedIndex;
+        loading = true;
+        cboCourse.DataSource = SelectedClass is ClassInfo cls
+            ? repository.GetCoursesByClass(cls.ClassId).ToList()
+            : new List<CourseInfo>();
+        loading = false;
+
+        currentCourseIndex = -1;
+        if (cboCourse.Items.Count > 0)
+        {
+            loading = true;
+            cboCourse.SelectedIndex = 0;
+            loading = false;
+        }
+        LoadGrades();
+    }
 
     private void LoadGrades()
     {
         CourseInfo? course = SelectedCourse;
         dgvGrades.Rows.Clear();
-        if (course == null)
+        if (course == null || SelectedClass is not ClassInfo cls)
         {
+            lblCredits.Text = "Credits: -";
+            hasUnsavedChanges = false;
+            UpdateSummary();
             return;
         }
 
@@ -52,7 +80,7 @@ public partial class FormGradeEntry : Form
         lblCredits.Text = $"Credits: {course.Credits}";
 
         int no = 1;
-        foreach (CourseGrade grade in repository.GetGradesByCourse(course.CourseId))
+        foreach (CourseGrade grade in repository.GetGradesByClassAndCourse(cls.ClassId, course.CourseId))
         {
             int rowIndex = dgvGrades.Rows.Add();
             DataGridViewRow row = dgvGrades.Rows[rowIndex];
@@ -215,6 +243,24 @@ public partial class FormGradeEntry : Form
         }
 
         LoadGrades();
+    }
+
+    private void cboClass_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (loading || cboClass.SelectedIndex == currentClassIndex)
+        {
+            return;
+        }
+
+        if (!ConfirmLeave())
+        {
+            loading = true;
+            cboClass.SelectedIndex = currentClassIndex;
+            loading = false;
+            return;
+        }
+
+        LoadCourses();
     }
 
     private void btnSave_Click(object? sender, EventArgs e)

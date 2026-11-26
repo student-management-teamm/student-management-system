@@ -17,6 +17,8 @@
 
         private void InitializeComponent()
         {
+            lblClass = new Label();
+            cboClass = new ComboBox();
             lblCourse = new Label();
             cboCourse = new ComboBox();
             lblCredits = new Label();
@@ -37,10 +39,29 @@
             ((System.ComponentModel.ISupportInitialize)dgvGrades).BeginInit();
             SuspendLayout();
             // 
+            // lblClass
+            // 
+            lblClass.AutoSize = true;
+            lblClass.Location = new Point(20, 23);
+            lblClass.Name = "lblClass";
+            lblClass.Size = new Size(37, 15);
+            lblClass.TabIndex = 8;
+            lblClass.Text = "Class:";
+            // 
+            // cboClass
+            // 
+            cboClass.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboClass.FormattingEnabled = true;
+            cboClass.Location = new Point(70, 20);
+            cboClass.Name = "cboClass";
+            cboClass.Size = new Size(150, 23);
+            cboClass.TabIndex = 9;
+            cboClass.SelectedIndexChanged += cboClass_SelectedIndexChanged;
+            // 
             // lblCourse
             // 
             lblCourse.AutoSize = true;
-            lblCourse.Location = new Point(20, 23);
+            lblCourse.Location = new Point(240, 23);
             lblCourse.Name = "lblCourse";
             lblCourse.Size = new Size(47, 15);
             lblCourse.TabIndex = 0;
@@ -50,16 +71,16 @@
             // 
             cboCourse.DropDownStyle = ComboBoxStyle.DropDownList;
             cboCourse.FormattingEnabled = true;
-            cboCourse.Location = new Point(80, 20);
+            cboCourse.Location = new Point(295, 20);
             cboCourse.Name = "cboCourse";
-            cboCourse.Size = new Size(320, 23);
+            cboCourse.Size = new Size(340, 23);
             cboCourse.TabIndex = 1;
             cboCourse.SelectedIndexChanged += cboCourse_SelectedIndexChanged;
             // 
             // lblCredits
             // 
             lblCredits.AutoSize = true;
-            lblCredits.Location = new Point(420, 23);
+            lblCredits.Location = new Point(655, 23);
             lblCredits.Name = "lblCredits";
             lblCredits.Size = new Size(50, 15);
             lblCredits.TabIndex = 2;
@@ -211,10 +232,12 @@
             Controls.Add(lblCredits);
             Controls.Add(cboCourse);
             Controls.Add(lblCourse);
+            Controls.Add(cboClass);
+            Controls.Add(lblClass);
             MinimumSize = new Size(700, 400);
             Name = "FormGradeEntry";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Enter Grades by Course";
+            Text = "Enter Grades by Class and Course";
             FormClosing += FormGradeEntry_FormClosing;
             Load += FormGradeEntry_Load;
             ((System.ComponentModel.ISupportInitialize)dgvGrades).EndInit();
@@ -224,6 +247,8 @@
 
         #endregion
 
+        private Label lblClass;
+        private ComboBox cboClass;
         private Label lblCourse;
         private ComboBox cboCourse;
         private Label lblCredits;
