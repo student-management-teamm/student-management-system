@@ -73,6 +73,9 @@ SV001: GPA = (4.0 x 3 + 3.5 x 3 + 3.0 x 2) / 8 = 28.5 / 8 = 3.5625 -> 3.56, clas
   ("Ma sinh vien"/"MSSV"/"Student code", "CC1"/"Attendance", "GK"/"Midterm", "THI1"/"Final"),
   students are matched by student code, and every row is previewed (will update / no change /
   skipped with the reason) before saving. By default an empty cell keeps the current score.
+  In the preview the scores can be corrected (0-10, "8,5" or "8.5"), a row can be left out with
+  the Import tick box or removed with Remove row, and Undo last import puts back the scores
+  that were stored before the last import.
 - **Final Exam Score Needed** (extension): for students with attendance and midterm scores but no
   final score yet, the lowest final score (steps of 0.1) needed to pass, or to reach C, B or A.
   "Not possible" when even 10 is not enough; students needing more than 8 to pass are marked

@@ -26,7 +26,10 @@
             lblFile = new Label();
             lblColumns = new Label();
             chkKeepEmpty = new CheckBox();
+            btnRemoveRow = new Button();
+            btnUndo = new Button();
             dgvPreview = new DataGridView();
+            colInclude = new DataGridViewCheckBoxColumn();
             colRow = new DataGridViewTextBoxColumn();
             colStudentCode = new DataGridViewTextBoxColumn();
             colStudentName = new DataGridViewTextBoxColumn();
@@ -123,6 +126,28 @@
             chkKeepEmpty.UseVisualStyleBackColor = true;
             chkKeepEmpty.CheckedChanged += chkKeepEmpty_CheckedChanged;
             // 
+            // btnRemoveRow
+            // 
+            btnRemoveRow.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnRemoveRow.Location = new Point(590, 108);
+            btnRemoveRow.Name = "btnRemoveRow";
+            btnRemoveRow.Size = new Size(120, 27);
+            btnRemoveRow.TabIndex = 8;
+            btnRemoveRow.Text = "Remove row";
+            btnRemoveRow.UseVisualStyleBackColor = true;
+            btnRemoveRow.Click += btnRemoveRow_Click;
+            // 
+            // btnUndo
+            // 
+            btnUndo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnUndo.Location = new Point(720, 108);
+            btnUndo.Name = "btnUndo";
+            btnUndo.Size = new Size(160, 27);
+            btnUndo.TabIndex = 9;
+            btnUndo.Text = "Undo last import";
+            btnUndo.UseVisualStyleBackColor = true;
+            btnUndo.Click += btnUndo_Click;
+            // 
             // dgvPreview
             // 
             dgvPreview.AllowUserToAddRows = false;
@@ -131,15 +156,28 @@
             dgvPreview.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvPreview.BackgroundColor = SystemColors.Window;
             dgvPreview.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPreview.Columns.AddRange(new DataGridViewColumn[] { colRow, colStudentCode, colStudentName, colAttendance, colMidterm, colFinal, colStatus });
+            dgvPreview.Columns.AddRange(new DataGridViewColumn[] { colInclude, colRow, colStudentCode, colStudentName, colAttendance, colMidterm, colFinal, colStatus });
             dgvPreview.Location = new Point(20, 142);
             dgvPreview.MultiSelect = false;
             dgvPreview.Name = "dgvPreview";
-            dgvPreview.ReadOnly = true;
+            dgvPreview.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+            dgvPreview.CellEndEdit += dgvPreview_CellEndEdit;
+            dgvPreview.CellValidating += dgvPreview_CellValidating;
+            dgvPreview.CurrentCellDirtyStateChanged += dgvPreview_CurrentCellDirtyStateChanged;
+            dgvPreview.CellValueChanged += dgvPreview_CellValueChanged;
+            dgvPreview.CellParsing += dgvPreview_CellParsing;
+            dgvPreview.DataError += dgvPreview_DataError;
             dgvPreview.RowHeadersVisible = false;
-            dgvPreview.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPreview.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvPreview.Size = new Size(860, 300);
-            dgvPreview.TabIndex = 8;
+            dgvPreview.TabIndex = 10;
+            // 
+            // colInclude
+            // 
+            colInclude.HeaderText = "Import";
+            colInclude.Name = "colInclude";
+            colInclude.ReadOnly = false;
+            colInclude.Width = 55;
             // 
             // colRow
             // 
@@ -167,7 +205,7 @@
             // 
             colAttendance.HeaderText = "Attendance";
             colAttendance.Name = "colAttendance";
-            colAttendance.ReadOnly = true;
+            colAttendance.ReadOnly = false;
             colAttendance.Width = 80;
             colAttendance.DefaultCellStyle = scoreStyle;
             colAttendance.ValueType = typeof(decimal);
@@ -176,7 +214,7 @@
             // 
             colMidterm.HeaderText = "Midterm";
             colMidterm.Name = "colMidterm";
-            colMidterm.ReadOnly = true;
+            colMidterm.ReadOnly = false;
             colMidterm.Width = 70;
             colMidterm.DefaultCellStyle = scoreStyle;
             colMidterm.ValueType = typeof(decimal);
@@ -185,7 +223,7 @@
             // 
             colFinal.HeaderText = "Final";
             colFinal.Name = "colFinal";
-            colFinal.ReadOnly = true;
+            colFinal.ReadOnly = false;
             colFinal.Width = 60;
             colFinal.DefaultCellStyle = scoreStyle;
             colFinal.ValueType = typeof(decimal);
@@ -204,7 +242,7 @@
             lblSummary.Location = new Point(20, 460);
             lblSummary.Name = "lblSummary";
             lblSummary.Size = new Size(300, 15);
-            lblSummary.TabIndex = 9;
+            lblSummary.TabIndex = 11;
             lblSummary.Text = "Choose a class, a course and a file to preview the import.";
             lblSummary.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             // 
@@ -214,7 +252,7 @@
             btnImport.Location = new Point(660, 453);
             btnImport.Name = "btnImport";
             btnImport.Size = new Size(115, 30);
-            btnImport.TabIndex = 10;
+            btnImport.TabIndex = 12;
             btnImport.Text = "Import scores";
             btnImport.UseVisualStyleBackColor = true;
             btnImport.Click += btnImport_Click;
@@ -225,7 +263,7 @@
             btnClose.Location = new Point(785, 453);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(95, 30);
-            btnClose.TabIndex = 11;
+            btnClose.TabIndex = 13;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
@@ -239,6 +277,8 @@
             Controls.Add(btnImport);
             Controls.Add(lblSummary);
             Controls.Add(dgvPreview);
+            Controls.Add(btnUndo);
+            Controls.Add(btnRemoveRow);
             Controls.Add(chkKeepEmpty);
             Controls.Add(lblColumns);
             Controls.Add(lblFile);
@@ -267,7 +307,10 @@
         private Label lblFile;
         private Label lblColumns;
         private CheckBox chkKeepEmpty;
+        private Button btnRemoveRow;
+        private Button btnUndo;
         private DataGridView dgvPreview;
+        private DataGridViewCheckBoxColumn colInclude;
         private DataGridViewTextBoxColumn colRow;
         private DataGridViewTextBoxColumn colStudentCode;
         private DataGridViewTextBoxColumn colStudentName;
