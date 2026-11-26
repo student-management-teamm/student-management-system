@@ -35,6 +35,17 @@ public static class GradesModule
         form.ShowDialog(owner);
     }
 
+    public static void ShowGradeFilter(IWin32Window? owner = null)
+    {
+        if (!CanConnect(owner))
+        {
+            return;
+        }
+
+        using FormGradeFilter form = new(Repository);
+        form.ShowDialog(owner);
+    }
+
     private static bool CanConnect(IWin32Window? owner)
     {
         try

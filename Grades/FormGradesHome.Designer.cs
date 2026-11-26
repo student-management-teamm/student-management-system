@@ -20,6 +20,7 @@
             lblTitle = new Label();
             btnGradeEntry = new Button();
             btnStudentGrades = new Button();
+            btnGradeFilter = new Button();
             SuspendLayout();
             // 
             // lblTitle
@@ -38,7 +39,7 @@
             btnGradeEntry.Name = "btnGradeEntry";
             btnGradeEntry.Size = new Size(300, 40);
             btnGradeEntry.TabIndex = 1;
-            btnGradeEntry.Text = "Enter grades by course";
+            btnGradeEntry.Text = "Enter grades by class and course";
             btnGradeEntry.UseVisualStyleBackColor = true;
             btnGradeEntry.Click += btnGradeEntry_Click;
             // 
@@ -52,11 +53,22 @@
             btnStudentGrades.UseVisualStyleBackColor = true;
             btnStudentGrades.Click += btnStudentGrades_Click;
             // 
+            // btnGradeFilter
+            // 
+            btnGradeFilter.Location = new Point(24, 174);
+            btnGradeFilter.Name = "btnGradeFilter";
+            btnGradeFilter.Size = new Size(300, 40);
+            btnGradeFilter.TabIndex = 3;
+            btnGradeFilter.Text = "Filter and search grades";
+            btnGradeFilter.UseVisualStyleBackColor = true;
+            btnGradeFilter.Click += btnGradeFilter_Click;
+            // 
             // FormGradesHome
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(350, 190);
+            ClientSize = new Size(350, 240);
+            Controls.Add(btnGradeFilter);
             Controls.Add(btnStudentGrades);
             Controls.Add(btnGradeEntry);
             Controls.Add(lblTitle);
@@ -74,5 +86,6 @@
         private Label lblTitle;
         private Button btnGradeEntry;
         private Button btnStudentGrades;
+        private Button btnGradeFilter;
     }
 }

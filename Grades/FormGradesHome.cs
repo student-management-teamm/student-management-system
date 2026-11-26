@@ -16,4 +16,9 @@ public partial class FormGradesHome : Form
     {
         GradesModule.ShowStudentGrades(this);
     }
+
+    private void btnGradeFilter_Click(object? sender, EventArgs e)
+    {
+        GradesModule.ShowGradeFilter(this);
+    }
 }
