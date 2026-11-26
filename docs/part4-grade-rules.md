@@ -68,6 +68,22 @@ SV001: GPA = (4.0 x 3 + 3.5 x 3 + 3.0 x 2) / 8 = 28.5 / 8 = 3.5625 -> 3.56, clas
 - **Filter and Search Grades** (extension): filter all grades by class, course, result
   (passed / failed / not graded), letter grade, total score range and student code or name.
   Shows pass rate and average total of the filtered rows.
+- **Import Grades from Excel or CSV** (extension): pick a class and course, choose the lecturer's
+  grade sheet (.xlsx or .csv). The student code and score columns are found by their headings
+  ("Ma sinh vien"/"MSSV"/"Student code", "CC1"/"Attendance", "GK"/"Midterm", "THI1"/"Final"),
+  students are matched by student code, and every row is previewed (will update / no change /
+  skipped with the reason) before saving. By default an empty cell keeps the current score.
+- **Final Exam Score Needed** (extension): for students with attendance and midterm scores but no
+  final score yet, the lowest final score (steps of 0.1) needed to pass, or to reach C, B or A.
+  "Not possible" when even 10 is not enough; students needing more than 8 to pass are marked
+  "at risk".
+- **Academic Warnings** (extension): GPA, graded and failed credits of every student, with a
+  warning level (thresholds in `GradeRules.cs`, group assumption):
+
+| Level | Condition |
+| --- | --- |
+| Level 2 (serious) | GPA below 1.0, or failed credits are at least 50% of graded credits |
+| Level 1 | GPA below 2.0, or 6 or more failed credits |
 
 ## Not done yet (depends on other parts)
 
