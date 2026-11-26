@@ -58,9 +58,34 @@ A course is passed when the total is at least 4.0.
 SV001: GPA = (4.0 x 3 + 3.5 x 3 + 3.0 x 2) / 8 = 28.5 / 8 = 3.5625 -> 3.56, classification "Very good".
 (IT102: 9 x 0.1 + 7.5 x 0.3 + 8 x 0.6 = 7.95, rounded to 8.0.)
 
+## Forms
+
+- **Grade Management** (main menu button "Manage Grades"): home screen of part 4.
+- **Enter Grades by Class and Course**: pick a class, then one of its courses; enter attendance,
+  midterm and final scores for every student of the class. Total, letter grade and result are
+  calculated as you type; Save writes to the `grades` table.
+- **Student Transcript and GPA**: all courses of one student with GPA and classification.
+- **Filter and Search Grades** (extension): filter all grades by class, course, result
+  (passed / failed / not graded), letter grade, total score range and student code or name.
+  Shows pass rate and average total of the filtered rows.
+
 ## Not done yet (depends on other parts)
 
-- Database tables for courses, enrolments and grades (part 2). Until then the forms use
-  `InMemoryGradeRepository` with sample data; a MySQL repository will implement `IGradeRepository`.
-- Opening the grade forms from the main menu (part 3): call `GradesModule.ShowHome(this)`.
 - Restricting lecturers to their own classes (part 1).
+
+## Database
+
+Grades are stored in MySQL in the `grades` table (one row per student and course:
+`AttendanceScore`, `MidtermScore`, `FinalScore`, NULL = not graded yet). The module reads
+students from `students`, courses from `subjects`, and which class studies which course from
+`classsubjects`.
+
+`database/grades.sql` creates the `grades` table, adds the course DCIT09 "Lập trình .NET (C#)"
+(3 credits) for class DCIT.15 and loads the class's attendance and midterm scores (real grade
+sheet, final exam not taken yet). It also loads SAMPLE scores (made up, for testing and the demo)
+for every student in every other course of their class. Run it after
+`database/student_management_group.sql`:
+
+```
+mysql -u root -p --default-character-set=utf8mb4 < database/grades.sql
+```
