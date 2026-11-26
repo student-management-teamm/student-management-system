@@ -16,5 +16,6 @@
         }
 
         private Button btnClasses;
+        private Button btnGrades;
     }
 }
