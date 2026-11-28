@@ -43,6 +43,7 @@ namespace StudentManagementWinForms
         private void InitializeComponent()
         {
             btnClasses = new Button();
+            btnGrades = new Button();
             SuspendLayout();
             // 
             // btnClasses
@@ -55,10 +56,21 @@ namespace StudentManagementWinForms
             btnClasses.UseVisualStyleBackColor = true;
             btnClasses.Click += btnClasses_Click;
             // 
+            // btnGrades
+            // 
+            btnGrades.Location = new Point(158, 12);
+            btnGrades.Name = "btnGrades";
+            btnGrades.Size = new Size(121, 23);
+            btnGrades.TabIndex = 1;
+            btnGrades.Text = "Manage Grades";
+            btnGrades.UseVisualStyleBackColor = true;
+            btnGrades.Click += btnGrades_Click;
+            // 
             // Form1
             // 
             ClientSize = new Size(718, 316);
             Controls.Add(btnClasses);
+            Controls.Add(btnGrades);
             Name = "Form1";
             ResumeLayout(false);
 
@@ -68,6 +80,11 @@ namespace StudentManagementWinForms
         {
             ClassForm classForm = new ClassForm();
             classForm.ShowDialog();
+        }
+
+        private void btnGrades_Click(object sender, EventArgs e)
+        {
+            Grades.GradesModule.ShowHome(this);
         }
     }
 }

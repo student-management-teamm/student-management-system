@@ -102,4 +102,76 @@ public static class GradeRules
         >= 1.0m => "Weak",
         _ => "Poor"
     };
+
+    /// <summary>Totals a student can aim for with the final exam, from passing to an A.</summary>
+    public static readonly (string Label, decimal MinTotal)[] FinalScoreTargets =
+    {
+        ("Pass (D)", PassMark),
+        ("C", 5.5m),
+        ("B", 7.0m),
+        ("A", 8.5m)
+    };
+
+    /// <summary>
+    /// Lowest final exam score (in steps of 0.1) that gives at least <paramref name="targetTotal"/>
+    /// after rounding, or null when even 10 is not enough.
+    /// </summary>
+    public static decimal? MinimumFinalScore(decimal attendance, decimal midterm, decimal targetTotal)
+    {
+        for (int step = 0; step <= 100; step++)
+        {
+            decimal final = step / 10m;
+            if (TotalScore(attendance, midterm, final) >= targetTotal)
+            {
+                return final;
+            }
+        }
+        return null;
+    }
+
+    // Academic warning thresholds (group assumption; change here if the school's rules differ).
+    public const decimal WarningLevel1Gpa = 2.0m;
+    public const decimal WarningLevel2Gpa = 1.0m;
+    public const int WarningLevel1FailedCredits = 6;
+    public const decimal WarningLevel2FailedShare = 0.5m;
+
+    /// <summary>
+    /// 0 = no warning, 1 = level 1, 2 = level 2 (serious), with the reasons in plain English.
+    /// </summary>
+    public static int AcademicWarningLevel(decimal gpa, int gradedCredits, int failedCredits, out string reason)
+    {
+        List<string> reasons = new();
+        int level = 0;
+
+        if (gradedCredits == 0)
+        {
+            reason = "";
+            return 0;
+        }
+
+        if (gpa < WarningLevel2Gpa)
+        {
+            level = 2;
+            reasons.Add($"GPA below {WarningLevel2Gpa.ToString("0.0", CultureInfo.InvariantCulture)}");
+        }
+        else if (gpa < WarningLevel1Gpa)
+        {
+            level = 1;
+            reasons.Add($"GPA below {WarningLevel1Gpa.ToString("0.0", CultureInfo.InvariantCulture)}");
+        }
+
+        if (failedCredits >= gradedCredits * WarningLevel2FailedShare)
+        {
+            level = 2;
+            reasons.Add($"failed at least {WarningLevel2FailedShare.ToString("0%", CultureInfo.InvariantCulture)} of graded credits");
+        }
+        else if (failedCredits >= WarningLevel1FailedCredits)
+        {
+            level = Math.Max(level, 1);
+            reasons.Add($"failed {failedCredits} credits (limit {WarningLevel1FailedCredits})");
+        }
+
+        reason = string.Join("; ", reasons);
+        return level;
+    }
 }
