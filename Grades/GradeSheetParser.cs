@@ -137,10 +137,10 @@ public static class GradeSheetParser
     private static string Cell(string[] row, int column) =>
         column >= 0 && column < row.Length ? row[column].Trim() : "";
 
-    /// <summary>Lower case, no Vietnamese accents, single spaces: "Mã sinh viên" -> "ma sinh vien".</summary>
+    /// <summary>Lower case, no Vietnamese accents (including the letter d with stroke), single spaces: "MA SINH VIEN" with accents -> "ma sinh vien".</summary>
     public static string Normalize(string text)
     {
-        string decomposed = text.Trim().ToLowerInvariant().Replace('đ', 'd').Normalize(NormalizationForm.FormD);
+        string decomposed = text.Trim().ToLowerInvariant().Replace('\u0111', 'd').Normalize(NormalizationForm.FormD);
         StringBuilder builder = new();
         foreach (char ch in decomposed)
         {

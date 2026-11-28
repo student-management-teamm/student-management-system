@@ -99,10 +99,11 @@ Grades are stored in MySQL in the `grades` table (one row per student and course
 students from `students`, courses from `subjects`, and which class studies which course from
 `classsubjects`.
 
-`database/grades.sql` creates the `grades` table, adds the course DCIT09 "Lập trình .NET (C#)"
-(3 credits) for class DCIT.15 and loads the class's attendance and midterm scores (real grade
-sheet, final exam not taken yet). It also loads SAMPLE scores (made up, for testing and the demo)
-for every student in every other course of their class. Run it after
+`database/grades.sql` creates the `grades` table, adds the course DCIT09 ".NET Programming (C#)"
+(3 credits) for class DCIT.15, taught by GV013 Trieu Thu Huong, and loads the class's attendance
+and midterm scores (real grade sheet, final exam not taken yet). It also loads SAMPLE scores (made
+up, for testing and the demo) for every student in every other course of their class: 1,468 rows
+for 184 students. Run it after
 `database/student_management_group.sql`:
 
 ```
