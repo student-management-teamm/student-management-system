@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Forms;
-using StudentManagementWinForms;
 
 namespace StudentManagementWinForms
 {
@@ -10,8 +9,7 @@ namespace StudentManagementWinForms
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-
-            Application.Run(new Form1());
+            Application.Run(new LoginForm());
         }
     }
 }
